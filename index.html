@@ -105,7 +105,7 @@
     .choices.with-icons button .btn-label{font-size:11px;line-height:1.2}
 
     .choices{display:flex;flex-wrap:wrap;gap:8px}
-    .choices button{flex:1 1 calc(50% - 4px);min-width:90px;min-height:48px;padding:14px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);text-align:center;-webkit-tap-highlight-color:transparent;position:relative}
+    .choices button{flex:1 1 calc(50% - 4px);min-width:90px;min-height:48px;padding:14px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);text-align:center;-webkit-tap-highlight-color:transparent;position:relative;display:flex;align-items:center;justify-content:center}
     .choices button:hover{border-color:var(--navy);background:var(--gold-bg)}
     .choices button:active{transform:scale(.97)}
     .choices.cols-3 button{flex:1 1 calc(33.33% - 6px);min-width:80px;padding:12px 4px;font-size:13px}
@@ -129,12 +129,14 @@
     .back-btn{display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--text-light);font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:10px;text-align:center;width:100%;min-height:40px;padding:4px;transition:color .2s}
     .back-btn:hover{color:var(--text-mid)}
 
-    /* ===== LINE CTA ===== */
-    .line-cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px;min-height:52px;background:var(--line-green);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none;transition:all .2s;-webkit-tap-highlight-color:transparent;margin-top:8px;animation:ctaPulse 2.5s cubic-bezier(.4,0,.6,1) infinite}
+    /* ===== LINE CTA（固定表示） ===== */
+    .line-cta-fixed{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--card);padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--border);box-shadow:0 -4px 16px rgba(27,40,56,.08);display:none}
+    .line-cta-fixed-inner{max-width:480px;margin:0 auto}
+    .line-cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px;min-height:52px;background:var(--line-green);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none;transition:all .2s;-webkit-tap-highlight-color:transparent;animation:ctaPulse 2.5s cubic-bezier(.4,0,.6,1) infinite}
     .line-cta:active{opacity:.9;transform:scale(.98);animation:none}
     .line-cta svg{width:22px;height:22px;fill:#fff;flex-shrink:0}
     @keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(6,199,85,.35)}50%{box-shadow:0 0 0 12px rgba(6,199,85,0)}}
-    .cta-sub{text-align:center;font-size:11px;color:var(--text-light);margin-top:10px;line-height:1.7}
+    .cta-sub{text-align:center;font-size:11px;color:var(--text-light);margin-top:8px;line-height:1.7}
     .cta-sub strong{color:var(--navy);font-size:13px}
 
     /* ===== RESULT CARD ===== */
@@ -192,6 +194,16 @@
   </div>
   <div class="chat-area" id="chatArea"></div>
   <div class="input-area" id="inputArea"><div class="input-inner" id="inputInner"></div></div>
+  <!-- LINE CTA 固定ボタン（完了後に表示） -->
+  <div class="line-cta-fixed" id="lineCtaFixed">
+    <div class="line-cta-fixed-inner">
+      <a class="line-cta" id="lineCtaBtn" href="https://lin.ee/XXXXXXX">
+        <svg viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        LINEで正確な査定額を見る
+      </a>
+      <div class="cta-sub">入力不要・完全無料 ／ いつでもブロックOK<br>本日 <strong id="todayCount">0</strong> 人が査定を完了</div>
+    </div>
+  </div>
   <div class="footer-links"><a href="./privacy.html">プライバシーポリシー</a><span style="margin:0 6px;color:var(--border)">|</span><a href="./tokushoho.html">特定商取引法に基づく表記</a></div>
 <script>
 window.onerror=function(m,u,l){console.error('Error:',m,u,l);var i=document.getElementById('inputInner');if(i&&!i.querySelector('.submit-btn'))i.innerHTML='<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px">読み込みエラーが発生しました。<br>ページを再読み込みしてください。</div>'};
@@ -256,12 +268,39 @@ async function fetchCities(prefecture){
   return [];
 }
 
+// 専有面積選択肢
+const AREA_OPTIONS = [
+  {label:'〜20㎡',value:'〜20㎡'},
+  {label:'20〜40㎡',value:'20〜40㎡'},
+  {label:'40〜60㎡',value:'40〜60㎡'},
+  {label:'60〜80㎡',value:'60〜80㎡'},
+  {label:'80〜100㎡',value:'80〜100㎡'},
+  {label:'100㎡〜',value:'100㎡〜'}
+];
+
+// 築年数選択肢
+const AGE_OPTIONS = [
+  {label:'新築・築5年以内',value:'新築〜5年'},
+  {label:'築6〜10年',value:'6〜10年'},
+  {label:'築11〜15年',value:'11〜15年'},
+  {label:'築16〜20年',value:'16〜20年'},
+  {label:'築21〜30年',value:'21〜30年'},
+  {label:'築31年以上',value:'31年以上'},
+  {label:'わからない',value:'不明'}
+];
+
 const STEPS=[
   {id:'property_type',type:'choice',
     question:'まず、どんな物件の査定ですか？',
     options:[{label:'マンション',value:'マンション'},{label:'戸建て',value:'戸建て'},{label:'土地',value:'土地'},{label:'ビル一棟',value:'ビル一棟'},{label:'マンション一棟',value:'マンション一棟'},{label:'アパート一棟',value:'アパート一棟'}]},
   {id:'prefecture',type:'searchable_list',question:'ありがとうございます！<br>物件がある<b>都道府県</b>はどちらですか？',placeholder:'都道府県名で検索…',items:PREFECTURES,grouped:true},
   {id:'city',type:'searchable_list',question:'次に<b>市区町村</b>を教えてください。',placeholder:'市区町村名で検索…',dynamicItems:true},
+  {id:'floor_area',type:'choice',
+    question:'おおよその<b>専有面積</b>を教えてください。',
+    options:AREA_OPTIONS},
+  {id:'building_age',type:'choice',
+    question:'<b>築年数</b>はどのくらいですか？',
+    options:AGE_OPTIONS},
   {id:'situation',type:'choice',
     question:'いま物件はどんな状況ですか？<br><small style="color:var(--text-light)">あと3問で終わりです</small>',
     options:[{label:'居住中',value:'居住中'},{label:'空き家',value:'空き家'},{label:'賃貸中',value:'賃貸中'},{label:'その他',value:'その他'}]},
@@ -381,12 +420,23 @@ class ChatForm{
   }
 
   calcEstimatedPrice(){
+    // 都道府県ランク × 物件種別のベース価格
     const bp={'マンション':{A:[3500,5800],B:[2200,3800],C:[1500,2800],D:[800,1800]},'戸建て':{A:[4000,7000],B:[2500,4500],C:[1800,3200],D:[1000,2200]},'土地':{A:[3000,6000],B:[1800,3500],C:[1000,2500],D:[500,1500]},'ビル一棟':{A:[8000,20000],B:[5000,12000],C:[3000,8000],D:[2000,5000]},'マンション一棟':{A:[10000,25000],B:[6000,15000],C:[4000,10000],D:[2500,6000]},'アパート一棟':{A:[5000,12000],B:[3000,7000],C:[2000,5000],D:[1500,3500]}};
     const tA=['東京都'],tB=['神奈川県','大阪府','愛知県','京都府','兵庫県','埼玉県','千葉県','福岡県'];
     const tC=['宮城県','広島県','北海道','静岡県','茨城県','新潟県','長野県','岐阜県','栃木県','群馬県','岡山県','三重県','熊本県','鹿児島県','滋賀県','奈良県','沖縄県'];
     const p=this.answers.prefecture||'';let t='D';if(tA.includes(p))t='A';else if(tB.includes(p))t='B';else if(tC.includes(p))t='C';
     const type=this.answers.property_type||'マンション';const r=(bp[type]&&bp[type][t])||[1000,3000];
-    const j=()=>Math.floor((Math.random()-.5)*r[0]*.08);return{low:r[0]+j(),high:r[1]+j()};
+
+    // 築年数補正係数
+    const ageAdj={'新築〜5年':1.15,'6〜10年':1.05,'11〜15年':0.95,'16〜20年':0.85,'21〜30年':0.75,'31年以上':0.68,'不明':0.90};
+    const adj=ageAdj[this.answers.building_age]||1.0;
+
+    // 専有面積による補正（面積が大きいほど高く、小さいほど低く）
+    const areaAdj={'〜20㎡':0.55,'20〜40㎡':0.75,'40〜60㎡':1.0,'60〜80㎡':1.2,'80〜100㎡':1.45,'100㎡〜':1.7};
+    const aAdj=areaAdj[this.answers.floor_area]||1.0;
+
+    const j=()=>Math.floor((Math.random()-.5)*r[0]*.08);
+    return{low:Math.round(r[0]*adj*aAdj)+j(),high:Math.round(r[1]*adj*aAdj)+j()};
   }
   getTodayCount(){const d=new Date();return 28+((d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate())%25)}
 
@@ -396,7 +446,7 @@ class ChatForm{
     await this.addBotMessage('おつかれさまでした！<br>査定の結果が出ましたので、ご覧ください。');await this.delay(500);
 
     const price=this.calcEstimatedPrice();const fL=price.low.toLocaleString();const fH=price.high.toLocaleString();
-    const items=[{l:'物件種別',v:this.answers.property_type},{l:'所在地',v:(this.answers.prefecture||'')+' '+(this.answers.city||'')},{l:'状況',v:this.answers.situation},{l:'売却時期',v:this.answers.timing},{l:'ご目的',v:this.answers.reason}].filter(i=>i.v&&i.v.trim());
+    const items=[{l:'物件種別',v:this.answers.property_type},{l:'所在地',v:(this.answers.prefecture||'')+' '+(this.answers.city||'')},{l:'専有面積',v:this.answers.floor_area},{l:'築年数',v:this.answers.building_age},{l:'状況',v:this.answers.situation},{l:'売却時期',v:this.answers.timing},{l:'ご目的',v:this.answers.reason}].filter(i=>i.v&&i.v.trim());
 
     const rc=document.createElement('div');rc.className='result-card';
     rc.innerHTML=`<h3>査定診断レポート</h3><div class="result-summary">${items.map(i=>`<div class="row"><span class="label">${i.l}</span><span class="value">${i.v}</span></div>`).join('')}</div><div class="price-estimate"><div class="est-label">AI簡易査定による推定価格</div><div class="est-price"><span class="est-blurred">${fL}</span> 〜 <span class="est-blurred">${fH}</span> <span class="est-unit">万円</span></div><div class="est-note">※ 正確な査定額はLINEでお届けします</div></div>`;
@@ -407,22 +457,29 @@ class ChatForm{
       const res=await fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({...this.answers,est_low:price.low,est_high:price.high,...this.trackingData,created_at:new Date().toISOString()})});
       const data=await res.json();sid=data.session_id||'';
-    }catch(e){console.error('セッション保存失敗:',e);sid='s_'+Date.now()}const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const lineUrl=`${LINE_ADD_URL}?ref=${sid}`;
+    }catch(e){console.error('セッション保存失敗:',e);sid='s_'+Date.now()}
 
-    const lb=document.createElement('a');lb.className='line-cta';lb.href=lineUrl;
-    if(!isMobile){lb.target='_blank';lb.rel='noopener'}
-    lb.innerHTML=SVG_LINE+' LINEで正確な査定額を見る';
-    lb.addEventListener('click',e=>{
+    // TikTok SubmitForm イベント
+    this.trackEvent('SubmitForm',{content_name:this.answers.property_type,value:1,currency:'JPY'});
+    if(typeof dataLayer!=='undefined')dataLayer.push({event:'form_complete',property_type:this.answers.property_type,prefecture:this.answers.prefecture,est_low:price.low,est_high:price.high});
+
+    // LINE CTA固定ボタンを表示
+    const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const lineUrl=`${LINE_ADD_URL}?ref=${sid}`;
+    const ctaFixed=document.getElementById('lineCtaFixed');
+    const ctaBtn=document.getElementById('lineCtaBtn');
+    ctaBtn.href=lineUrl;
+    if(!isMobile){ctaBtn.target='_blank';ctaBtn.rel='noopener'}
+    ctaBtn.addEventListener('click',e=>{
       this.trackEvent('CompleteRegistration',{content_name:this.answers.property_type,value:1,currency:'JPY'});
       if(typeof dataLayer!=='undefined')dataLayer.push({event:'line_friend_add',property_type:this.answers.property_type,prefecture:this.answers.prefecture,est_low:price.low,est_high:price.high});
       if(isMobile){e.preventDefault();setTimeout(()=>{location.href=lineUrl},300)}
     });
-    this.inputInner.appendChild(lb);
+    document.getElementById('todayCount').textContent=this.getTodayCount();
+    ctaFixed.style.display='block';
 
-    const sub=document.createElement('div');sub.className='cta-sub';
-    sub.innerHTML=`入力不要・完全無料 ／ いつでもブロックOK<br>本日 <strong>${this.getTodayCount()}</strong> 人が査定を完了`;
-    this.inputInner.appendChild(sub);
+    // チャットエリアにもCTA表示
+    await this.addBotMessage('正確な査定額は<b>LINE</b>でお届けします。<br>下のボタンからお友だち追加してください！');
     this.scrollToBottom();this.isComplete=true;
   }
 
