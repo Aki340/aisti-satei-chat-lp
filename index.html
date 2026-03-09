@@ -74,11 +74,6 @@
     .trust-bar .t-icon{width:16px;height:16px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .trust-bar .t-icon svg{width:9px;height:9px;fill:var(--gold)}
 
-    /* ===== HERO COPY ===== */
-    .hero-copy{text-align:center;padding:20px 16px 12px;background:var(--bg);flex-shrink:0}
-    .hero-main{font-size:22px;font-weight:700;color:var(--navy);line-height:1.4;letter-spacing:.02em}
-    .hero-sub{font-size:13px;color:var(--text-mid);margin-top:6px;font-weight:500}
-
     /* ===== CHAT AREA ===== */
     .chat-area{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:14px;max-width:480px;margin:0 auto;width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background-image:radial-gradient(circle,#E0E4E8 .5px,transparent .5px);background-size:16px 16px}
 
@@ -162,6 +157,7 @@
     .price-estimate .est-price{font-size:28px;font-weight:700;color:var(--gold-light);margin:6px 0 2px;line-height:1.2}
     .price-estimate .est-unit{font-size:15px;font-weight:600}
     .price-estimate .est-note{font-size:10px;opacity:.55;margin-top:4px}
+    .price-estimate .est-blurred{filter:blur(6px);user-select:none;-webkit-user-select:none;display:inline}
 
 
     .footer-links{text-align:center;padding:6px;font-size:10px;flex-shrink:0}
@@ -200,10 +196,6 @@
     <span><span class="t-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15l-4-4 1.41-1.41L10 13.17l6.59-6.59L19 8l-8 8z"/></svg></span>完全無料</span>
     <span><span class="t-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></span>最短60秒</span>
     <span><span class="t-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></span>査定実績多数</span>
-  </div>
-  <div class="hero-copy" id="heroCopy">
-    <p class="hero-main">あなたの不動産、<br>今いくら？</p>
-    <p class="hero-sub">最短60秒・完全無料のAI簡易査定</p>
   </div>
   <div class="chat-area" id="chatArea"></div>
   <div class="input-area" id="inputArea"><div class="input-inner" id="inputInner"></div></div>
@@ -360,7 +352,6 @@ class ChatForm{
     this.chatArea.appendChild(chartMsg);this.scrollToBottom();
     await this.delay(600);
     await this.showStep(0);
-    const hero=document.getElementById('heroCopy');if(hero)hero.style.display='none';
   }
   async showStep(index){
     this.stepIndex=index;this.updateProgress();const step=STEPS[index];
@@ -462,12 +453,10 @@ class ChatForm{
     await this.addBotMessage('おつかれさまでした！<br>査定の結果が出ましたので、ご覧ください。');await this.delay(500);
 
     const price=this.calcEstimatedPrice();const fL=price.low.toLocaleString();const fH=price.high.toLocaleString();
-    const maskPrice=(n)=>{const s=String(n);if(s.length<=2)return s;return s[0]+'●'.repeat(s.length-1)};
-    const mL=maskPrice(price.low);const mH=maskPrice(price.high);
     const items=[{l:'物件種別',v:this.answers.property_type},{l:'所在地',v:(this.answers.prefecture||'')+' '+(this.answers.city||'')},{l:'専有面積',v:this.answers.floor_area},{l:'築年数',v:this.answers.building_age},{l:'状況',v:this.answers.situation},{l:'売却時期',v:this.answers.timing},{l:'ご目的',v:this.answers.reason}].filter(i=>i.v&&i.v.trim());
 
     const rc=document.createElement('div');rc.className='result-card';
-    rc.innerHTML=`<h3>査定診断レポート</h3><div class="result-summary">${items.map(i=>`<div class="row"><span class="label">${i.l}</span><span class="value">${i.v}</span></div>`).join('')}</div><div class="price-estimate"><div class="est-label">AI簡易査定による推定価格</div><div class="est-price">${mL} 〜 ${mH} <span class="est-unit">万円</span></div><div class="est-note">※ 正確な査定額はLINEでお届けします</div></div>`;
+    rc.innerHTML=`<h3>査定診断レポート</h3><div class="result-summary">${items.map(i=>`<div class="row"><span class="label">${i.l}</span><span class="value">${i.v}</span></div>`).join('')}</div><div class="price-estimate"><div class="est-label">AI簡易査定による推定価格</div><div class="est-price"><span class="est-blurred">${fL}</span> 〜 <span class="est-blurred">${fH}</span> <span class="est-unit">万円</span></div><div class="est-note">※ 正確な査定額はLINEでお届けします</div></div>`;
     this.chatArea.appendChild(rc);this.scrollToBottom();await this.delay(600);
 
     let sid='';
